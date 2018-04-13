@@ -23,10 +23,7 @@ instance_groups:
           heap_newsize: 800M
           cassandra_password: ((cassandra_admin_password))
           validate_ssl_TF: false
-          cert:
-            ca: ((cassandra_certificate_seeds))
-            private_key: ((cassandra_certificate_seeds.private_key))
-            certificate: ((cassandra_certificate_seeds.certificate))
+          cert: ((cassandra_nodes_certificate))
           keystore_password: ((cassandra_key_store_pass))
     stemcell: *trusty_stemcell
     vm_type: &cassandra_vm_type default
@@ -61,21 +58,13 @@ variables:
     options:
       is_ca: true
       common_name: internalCA
-  - name: cassandra_certificate_seeds
+  - name: cassandra_nodes_certificate
     type: certificate
     options:
       ca: /internalCA
       common_name: <%= seed.instance.address %>
       alternative_names: 
         - "*.cassandra-seeds.default.cassandra.bosh"
-      extended_key_usage: [ client_auth, server_auth ]
-  - name: cassandra_certificate_servers
-    type: certificate
-    options:
-      ca: /internalCA
-      common_name: <%= cluster.instance.address %>
-      alternative_names: 
-        - "*.cassandra-servers.default.cassandra.bosh"
       extended_key_usage: [ client_auth, server_auth ]
   - name: cassandra_key_store_pass  
     type: password
