@@ -85,7 +85,4 @@ $CASSANDRA_BIN/cqlsh --cqlshrc "$job_dir/root/.cassandra/cqlshrc" \
 log_err "INFO: propagating any new password with the enforced replication strategy"
 $job_dir/bin/nodetool repair system_auth
 
-log_err "INFO: creating SSL certificates"
-$job_dir/bin/creer_pem_cli_serv.sh
-
 exit 0
